@@ -16,8 +16,30 @@
         .logo-section { display: flex; flex-direction: column; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
         .logo-box { background: var(--black); color: #fff; padding: 12px 35px; font-size: 24px; font-weight: 900; font-style: italic; border-radius: 4px; text-transform: uppercase; }
         
-        .nav-controls { display: flex; align-items: center; padding: 10px; gap: 8px; max-width: 1200px; margin: 0 auto; }
-        .category-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex-grow: 1; }
+        .nav-controls { display: flex; align-items: center; padding: 10px; gap: 8px; max-width: 1200px; margin: 0 auto; overflow: hidden; }
+        
+        /* BUSCADOR IZQUIERDA */
+        .search-wrapper { display: flex; align-items: center; gap: 0; transition: all 0.3s ease; }
+        .search-input { 
+            width: 0; 
+            opacity: 0; 
+            padding: 0; 
+            border: 1px solid #ddd; 
+            border-radius: 20px; 
+            transition: all 0.3s ease; 
+            outline: none;
+            font-size: 14px;
+            margin-left: 0;
+        }
+        .search-wrapper.active .search-input { 
+            width: 140px; 
+            opacity: 1; 
+            padding: 8px 15px; 
+            margin-left: 8px;
+            margin-right: 5px;
+        }
+
+        .category-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex-grow: 1; transition: transform 0.3s; }
         .circle-btn { width: 42px; height: 42px; border-radius: 50%; background: #f0f0f0; border: none; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 16px; flex-shrink: 0; }
 
         .pill { padding: 10px 18px; border-radius: 20px; background: #eee; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; color: #555; }
@@ -26,7 +48,6 @@
         /* GRID */
         .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; max-width: 1200px; margin: 0 auto; }
         .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-5px); }
         .card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: #f0f0f0; display: block; }
         .card-info { padding: 10px; text-align: center; }
         .card-info h3 { margin: 0; font-size: 13px; color: #888; font-weight: 400; text-transform: uppercase; }
@@ -49,92 +70,20 @@
         .next-img { right: 10px; }
         .img-counter { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.5); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
 
-        /* ELEMENTOS DEL CARRITO */
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
-        .cart-item-info h4 { margin: 0; font-size: 14px; color: #333; }
-        .btn-remove { background: none; border: none; color: var(--red); font-size: 18px; cursor: pointer; }
-
-        .selector-label { font-weight: bold; font-size: 14px; margin-top: 20px; display: block; margin-bottom: 8px; color: #555; }
-        .opt-group { display: flex; gap: 8px; flex-wrap: wrap; }
-        .opt-btn { padding: 10px 18px; border-radius: 8px; border: 2px solid #eee; background: #f9f9f9; font-weight: bold; cursor: pointer; font-size: 13px; color: #333; }
-        .opt-btn.selected { border-color: var(--dark-green); background: var(--dark-green); color: white; }
-        
-        .qty-controls { display: flex; align-items: center; gap: 15px; margin: 15px 0; background: #f1f3f5; padding: 8px 15px; border-radius: 10px; width: fit-content; }
-        .qty-btn { width: 35px; height: 35px; border-radius: 50%; border: 1px solid #ddd; background: white; font-size: 18px; font-weight: bold; cursor: pointer; }
-        .qty-val { font-size: 20px; font-weight: bold; min-width: 25px; text-align: center; }
-
         .btn-add { width: 100%; padding: 18px; border-radius: 12px; border: none; background: var(--dark-green); color: white; font-weight: bold; font-size: 16px; margin-top: 10px; cursor: pointer; }
         .btn-buy-now { width: 100%; padding: 18px; border-radius: 12px; border: 2px solid var(--dark-green); background: transparent; color: var(--dark-green); font-weight: bold; font-size: 16px; margin-top: 10px; cursor: pointer; }
 
         .loader { border: 3px solid #f3f3f3; border-top: 3px solid var(--dark-green); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 50px auto; grid-column: 1/-1; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* ADAPTACIÓN PARA COMPUTADORAS (VERSION FINAL) */
         @media (min-width: 1024px) {
-            body { 
-                overflow-y: auto !important; /* Fuerza el scroll en la página principal */
-            }
-
-            .product-grid { 
-                grid-template-columns: repeat(4, 1fr); 
-                gap: 30px; 
-                padding: 40px 10%; /* Más espacio a los lados para que no choque con los bordes */
-                max-width: 1400px;
-                margin: 0 auto;
-            }
-
-            /* Ajuste del Header para que no tape contenido */
-            header {
-                position: relative; /* Cambiado de sticky a relative para evitar bloqueos de scroll */
-                margin-bottom: 20px;
-            }
-
-            .nav-controls {
-                justify-content: center; /* Centra los botones de categorías en PC */
-                padding: 20px;
-            }
-
-            /* Estilo de los Modales (Detalle y Carrito) */
-            .modal-full { 
-                display: none; 
-                align-items: center; 
-                justify-content: center; 
-                background: rgba(0,0,0,0.8); 
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-            }
-
-            .modal-container { 
-                width: 90%; 
-                max-width: 1000px; 
-                height: auto;
-                max-height: 85vh; /* Evita que se salga de la pantalla */
-                border-radius: 20px; 
-                overflow-y: auto; /* Permite rodar DENTRO del detalle del producto */
-                background: white;
-                box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            }
-
-            .modal-body-layout { 
-                display: grid; 
-                grid-template-columns: 1fr 1fr; 
-                gap: 40px; 
-                padding: 20px;
-            }
-
-            /* Carrito flotante a la derecha en PC */
-            .cart-bar { 
-                width: 350px; 
-                left: auto !important;
-                right: 40px !important; 
-                transform: none !important; 
-                border-radius: 50px !important;
-                bottom: 30px !important;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            }
+            .product-grid { grid-template-columns: repeat(4, 1fr); gap: 30px; padding: 40px 10%; max-width: 1400px; margin: 0 auto; }
+            header { position: relative; margin-bottom: 20px; }
+            .nav-controls { justify-content: center; padding: 20px; }
+            .modal-full { align-items: center; justify-content: center; background: rgba(0,0,0,0.8); }
+            .modal-container { width: 90%; max-width: 1000px; height: auto; max-height: 85vh; border-radius: 20px; overflow-y: auto; background: white; }
+            .modal-body-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 20px; }
+            .cart-bar { width: 350px; left: auto !important; right: 40px !important; transform: none !important; border-radius: 50px !important; bottom: 30px !important; }
         }
     </style>
 </head>
@@ -145,7 +94,13 @@
         <div class="logo-section"><div class="logo-box">FAST</div></div>
         <nav class="nav-controls">
             <button class="circle-btn" onclick="location.reload()"><i class="fas fa-home"></i></button>
-            <div class="category-scroll">
+            
+            <div class="search-wrapper" id="search-wrapper">
+                <button class="circle-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+                <input type="text" id="search-input" class="search-input" placeholder="¿Qué buscas?" oninput="filterSearch()">
+            </div>
+
+            <div class="category-scroll" id="cat-scroll">
                 <span class="pill active" onclick="setCat('Todas', this)">Todas</span>
                 <span class="pill" onclick="setCat('Camisas', this)">Camisas</span>
                 <span class="pill" onclick="setCat('Hoodies', this)">Hoodies</span>
@@ -160,42 +115,8 @@
         <span style="font-weight: bold; font-size: 12px;">VER MI ORDEN <i class="fas fa-chevron-up"></i></span>
     </div>
 
-    <div id="product-modal" class="modal-full">
-        <div class="modal-container">
-            <div class="modal-header">
-                <button class="circle-btn" onclick="closeModal('product-modal')"><i class="fas fa-times"></i></button>
-                <span style="font-weight: bold;">DETALLE DEL PRODUCTO</span>
-                <div style="width:42px"></div>
-            </div>
-            <div class="modal-content" id="modal-body"></div>
-        </div>
-    </div>
-
-    <div id="cart-modal" class="modal-full">
-        <div class="modal-container">
-            <div class="modal-header">
-                <button class="circle-btn" onclick="closeModal('cart-modal')"><i class="fas fa-arrow-left"></i></button>
-                <span style="font-weight: bold;">MI CARRITO</span>
-                <div style="width:42px"></div>
-            </div>
-            <div class="modal-content">
-                <div id="cart-items-list"></div>
-                <div id="cart-empty-msg" style="text-align:center; padding: 40px 0; display:none;">
-                    <i class="fas fa-shopping-cart" style="font-size: 50px; color: #ddd; margin-bottom: 15px;"></i>
-                    <p style="color: #888;">Tu carrito está vacío</p>
-                </div>
-                <div id="cart-summary" style="margin-top:20px; padding-top:20px; border-top:2px solid #eee;">
-                    <div style="display:flex; justify-content:space-between; font-weight:800; font-size:18px;">
-                        <span>TOTAL:</span>
-                        <span id="cart-total-val">$0</span>
-                    </div>
-                    <button class="btn-add" style="margin-top:25px; background: #25D366;" onclick="sendWhatsApp()">
-                        <i class="fab fa-whatsapp"></i> FINALIZAR PEDIDO POR WHATSAPP
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="product-modal" class="modal-full"><div class="modal-container"><div class="modal-header"><button class="circle-btn" onclick="closeModal('product-modal')"><i class="fas fa-times"></i></button><span style="font-weight: bold;">DETALLE DEL PRODUCTO</span><div style="width:42px"></div></div><div class="modal-content" id="modal-body"></div></div></div>
+    <div id="cart-modal" class="modal-full"><div class="modal-container"><div class="modal-header"><button class="circle-btn" onclick="closeModal('cart-modal')"><i class="fas fa-arrow-left"></i></button><span style="font-weight: bold;">MI CARRITO</span><div style="width:42px"></div></div><div class="modal-content"><div id="cart-items-list"></div><div id="cart-empty-msg" style="text-align:center; padding: 40px 0; display:none;"><i class="fas fa-shopping-cart" style="font-size: 50px; color: #ddd; margin-bottom: 15px;"></i><p style="color: #888;">Tu carrito está vacío</p></div><div id="cart-summary" style="margin-top:20px; padding-top:20px; border-top:2px solid #eee;"><div style="display:flex; justify-content:space-between; font-weight:800; font-size:18px;"><span>TOTAL:</span><span id="cart-total-val">$0</span></div><button class="btn-add" style="margin-top:25px; background: #25D366;" onclick="sendWhatsApp()"><i class="fab fa-whatsapp"></i> FINALIZAR PEDIDO POR WHATSAPP</button></div></div></div></div>
 
     <script>
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSEyQkCHLoASsaEXfzcQL-8jPVR3wNFI29s0NCjea0-ZFVNCcaaEz1Iem1HZPU0BRK0Y7w4-hh2Tb3H/pub?output=csv';
@@ -227,8 +148,29 @@
             } catch (e) { console.error("Error CSV:", e); }
         }
 
+        function toggleSearch() {
+            const wrapper = document.getElementById('search-wrapper');
+            wrapper.classList.toggle('active');
+            if (wrapper.classList.contains('active')) {
+                document.getElementById('search-input').focus();
+            } else {
+                document.getElementById('search-input').value = "";
+                render(currentList);
+            }
+        }
+
+        function filterSearch() {
+            const term = document.getElementById('search-input').value.toLowerCase();
+            const filtered = currentList.filter(p => p.n.toLowerCase().includes(term));
+            render(filtered);
+        }
+
         function render(list) {
             const g = document.getElementById('grid');
+            if (list.length === 0) {
+                g.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#888; padding:50px;">No se encontró nada.</p>`;
+                return;
+            }
             g.innerHTML = list.map(p => {
                 const thumb = p.iMap[p.colores[0]] ? p.iMap[p.colores[0]][0] : Object.values(p.iMap)[0][0];
                 return `<div class="card" onclick="openProductModal('${encodeURIComponent(JSON.stringify(p))}')">
@@ -237,35 +179,20 @@
             }).join('');
         }
 
+        function setCat(cat, el) {
+            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            currentList = cat === 'Todas' ? [...db] : db.filter(p => p.cat === cat);
+            const term = document.getElementById('search-input').value.toLowerCase();
+            render(term ? currentList.filter(p => p.n.toLowerCase().includes(term)) : currentList);
+        }
+
+        // FUNCIONES DE PRODUCTO Y CARRITO
         function openProductModal(data) {
             const p = JSON.parse(decodeURIComponent(data));
             sSize = p.tallas[0]; sColor = p.colores[0]; sQty = 1; photoIdx = 0;
             const b = document.getElementById('modal-body');
-            b.innerHTML = `
-                <div class="modal-body-layout">
-                    <div class="modal-img-container" id="gallery-container"></div>
-                    <div>
-                        <h2 style="margin:0; font-size:22px;">${p.n}</h2>
-                        <div class="price" style="font-size:28px; color:var(--dark-green); margin: 10px 0 20px 0;">$ ${Math.round(p.p)}</div>
-                        
-                        <label class="selector-label">Color:</label>
-                        <div class="opt-group">${p.colores.map(c => `<div class="opt-btn ${c===sColor?'selected':''}" onclick="updateColor(this,'${c}','${encodeURIComponent(JSON.stringify(p.iMap))}')">${c}</div>`).join('')}</div>
-                        
-                        <label class="selector-label">Talla:</label>
-                        <div class="opt-group">${p.tallas.map(t => `<div class="opt-btn ${t===sSize?'selected':''}" onclick="updateSel(this,'size','${t}')">${t}</div>`).join('')}</div>
-                        
-                        <label class="selector-label">Cantidad:</label>
-                        <div class="qty-controls">
-                            <button class="qty-btn" onclick="changeQty(-1)">-</button>
-                            <span class="qty-val" id="qty-display">1</span>
-                            <button class="qty-btn" onclick="changeQty(1)">+</button>
-                        </div>
-
-                        <button class="btn-add" onclick="addToCart('${p.n}', ${p.p})">AGREGAR AL CARRITO</button>
-                        <button class="btn-buy-now" onclick="buyNow('${p.n}', ${p.p})">COMPRAR AHORA</button>
-                    </div>
-                </div>
-            `;
+            b.innerHTML = `<div class="modal-body-layout"><div class="modal-img-container" id="gallery-container"></div><div><h2 style="margin:0; font-size:22px;">${p.n}</h2><div class="price" style="font-size:28px; color:var(--dark-green); margin: 10px 0 20px 0;">$ ${Math.round(p.p)}</div><label class="selector-label">Color:</label><div class="opt-group">${p.colores.map(c => `<div class="opt-btn ${c===sColor?'selected':''}" onclick="updateColor(this,'${c}','${encodeURIComponent(JSON.stringify(p.iMap))}')">${c}</div>`).join('')}</div><label class="selector-label">Talla:</label><div class="opt-group">${p.tallas.map(t => `<div class="opt-btn ${t===sSize?'selected':''}" onclick="updateSel(this,'size','${t}')">${t}</div>`).join('')}</div><label class="selector-label">Cantidad:</label><div class="qty-controls"><button class="qty-btn" onclick="changeQty(-1)">-</button><span class="qty-val" id="qty-display">1</span><button class="qty-btn" onclick="changeQty(1)">+</button></div><button class="btn-add" onclick="addToCart('${p.n}', ${p.p})">AGREGAR AL CARRITO</button><button class="btn-buy-now" onclick="buyNow('${p.n}', ${p.p})">COMPRAR AHORA</button></div></div>`;
             updateGallery(p.iMap);
             document.getElementById('product-modal').style.display = (window.innerWidth >= 1024) ? 'flex' : 'block';
             document.body.style.overflow = 'hidden';
@@ -275,10 +202,7 @@
             activePhotos = imgMap[sColor] || Object.values(imgMap)[0];
             photoIdx = 0;
             const container = document.getElementById('gallery-container');
-            container.innerHTML = `<img id="modal-main-img" src="${activePhotos[0]}" class="modal-img">
-                ${activePhotos.length > 1 ? `<button class="nav-img prev-img" onclick="navGallery(-1)"><i class="fas fa-chevron-left"></i></button>
-                <button class="nav-img next-img" onclick="navGallery(1)"><i class="fas fa-chevron-right"></i></button>
-                <div class="img-counter" id="img-counter">1 / ${activePhotos.length}</div>` : ''}`;
+            container.innerHTML = `<img id="modal-main-img" src="${activePhotos[0]}" class="modal-img">${activePhotos.length > 1 ? `<button class="nav-img prev-img" onclick="navGallery(-1)"><i class="fas fa-chevron-left"></i></button><button class="nav-img next-img" onclick="navGallery(1)"><i class="fas fa-chevron-right"></i></button><div class="img-counter" id="img-counter">1 / ${activePhotos.length}</div>` : ''}`;
         }
 
         function navGallery(dir) {
@@ -287,107 +211,43 @@
             if(document.getElementById('img-counter')) document.getElementById('img-counter').innerText = `${photoIdx+1} / ${activePhotos.length}`;
         }
 
-        function updateColor(el, color, imgMapEncoded) {
-            sColor = color; updateSel(el, 'color', color);
-            updateGallery(JSON.parse(decodeURIComponent(imgMapEncoded)));
-        }
-
-        function updateSel(el, type, val) {
-            el.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
-            el.classList.add('selected');
-            if(type === 'size') sSize = val;
-        }
-
+        function updateColor(el, color, imgMapEncoded) { sColor = color; updateSel(el, 'color', color); updateGallery(JSON.parse(decodeURIComponent(imgMapEncoded))); }
+        function updateSel(el, type, val) { el.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected')); el.classList.add('selected'); if(type === 'size') sSize = val; }
         function changeQty(v) { sQty = Math.max(1, sQty + v); document.getElementById('qty-display').innerText = sQty; }
-
-        function setCat(cat, el) {
-            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-            el.classList.add('active');
-            currentList = cat === 'Todas' ? [...db] : db.filter(p => p.cat === cat);
-            render(currentList);
-        }
-
-        function addToCart(name, price) {
-            cart.push({ name, price: Math.round(price), size: sSize, color: sColor, qty: sQty });
-            updateCartUI();
-            closeModal('product-modal');
-        }
-
-        function buyNow(name, price) {
-            const total = Math.round(price * sQty);
-            const msg = `¡Hola FAST! Quiero comprar ahora:\n\n` +
-                        `• ${sQty}x ${name}\n` +
-                        `• Color: ${sColor}\n` +
-                        `• Talla: ${sSize}\n\n` +
-                        `*TOTAL: $${total}*`;
-            window.open(`https://wa.me/584120361856?text=${encodeURIComponent(msg)}`);
-        }
+        function addToCart(name, price) { cart.push({ name, price: Math.round(price), size: sSize, color: sColor, qty: sQty }); updateCartUI(); closeModal('product-modal'); }
+        function buyNow(name, price) { const total = Math.round(price * sQty); const msg = `¡Hola FAST! Quiero comprar ahora:\n\n• ${sQty}x ${name}\n• Color: ${sColor}\n• Talla: ${sSize}\n\n*TOTAL: $${total}*`; window.open(`https://wa.me/584120361856?text=${encodeURIComponent(msg)}`); }
 
         function updateCartUI() {
             const count = cart.reduce((s, i) => s + i.qty, 0);
             document.getElementById('cart-bar').style.display = count > 0 ? 'flex' : 'none';
             document.getElementById('cart-count').innerText = count;
-            
             const list = document.getElementById('cart-items-list');
             const summary = document.getElementById('cart-summary');
             const emptyMsg = document.getElementById('cart-empty-msg');
-            
-            if(cart.length === 0) {
-                list.innerHTML = "";
-                summary.style.display = "none";
-                emptyMsg.style.display = "block";
-            } else {
-                summary.style.display = "block";
-                emptyMsg.style.display = "none";
+            if(cart.length === 0) { list.innerHTML = ""; summary.style.display = "none"; emptyMsg.style.display = "block"; } else {
+                summary.style.display = "block"; emptyMsg.style.display = "none";
                 let total = 0;
                 list.innerHTML = cart.map((item, index) => {
                     const itemTotal = Math.round(item.price * item.qty);
                     total += itemTotal;
-                    return `
-                    <div class="cart-item">
-                        <div class="cart-item-info">
-                            <h4>${item.name}</h4>
-                            <p>${item.color} / Talla ${item.size} (x${item.qty})</p>
-                            <span style="font-weight:bold;">$${itemTotal}</span>
-                        </div>
-                        <button class="btn-remove" onclick="removeFromCart(${index})"><i class="fas fa-trash-alt"></i></button>
-                    </div>`;
+                    return `<div class="cart-item"><div class="cart-item-info"><h4>${item.name}</h4><p>${item.color} / Talla ${item.size} (x${item.qty})</p><span style="font-weight:bold;">$${itemTotal}</span></div><button class="btn-remove" onclick="removeFromCart(${index})"><i class="fas fa-trash-alt"></i></button></div>`;
                 }).join('');
                 document.getElementById('cart-total-val').innerText = `$${Math.round(total)}`;
             }
         }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        function openCartModal() {
-            updateCartUI();
-            document.getElementById('cart-modal').style.display = (window.innerWidth >= 1024) ? 'flex' : 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
+        function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
+        function openCartModal() { updateCartUI(); document.getElementById('cart-modal').style.display = (window.innerWidth >= 1024) ? 'flex' : 'block'; document.body.style.overflow = 'hidden'; }
         function sendWhatsApp() {
             if(cart.length === 0) return;
             let msg = "¡Hola FAST! Este es mi pedido:\n\n";
             let total = 0;
-            cart.forEach(i => {
-                const itemTotal = Math.round(i.price * i.qty);
-                msg += `• ${i.qty}x ${i.name} (${i.color}/${i.size}) - $${itemTotal}\n`;
-                total += itemTotal;
-            });
+            cart.forEach(i => { const itemTotal = Math.round(i.price * i.qty); msg += `• ${i.qty}x ${i.name} (${i.color}/${i.size}) - $${itemTotal}\n`; total += itemTotal; });
             msg += `\n*TOTAL A PAGAR: $${Math.round(total)}*`;
             window.open(`https://wa.me/584120361856?text=${encodeURIComponent(msg)}`);
         }
 
-        function closeModal(id) { 
-            document.getElementById(id).style.display = 'none'; 
-            if(document.getElementById('product-modal').style.display === 'none' && 
-               document.getElementById('cart-modal').style.display === 'none') {
-                document.body.style.overflow = 'auto'; 
-            }
-        }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.style.overflow = 'auto'; }
 
         window.onload = start;
     </script>
